@@ -1,0 +1,33 @@
+mat-card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: center;
+}
+.chart {
+  width: 650px;
+  margin: 35px 5px;
+}
+.onButton {
+margin-left: 40px;
+}
+.mat-header-row {
+  background: #005173;
+}
+.mat-header-cell {
+  color: rgb(255, 255, 255);
+}
+.mat-row:nth-child(even) .mat-cell{
+  background-color: floralwhite;
+  min-height: 8vh;
+  display: flex;
+  align-items: center;
+}
+.mat-row:nth-child(odd) .mat-cell{
+  background-color: gainsboro;
+  min-height: 8vh;
+  display: flex;
+  align-items: center;
+}
+.mat-row{
+  border-bottom-style: hidden;
+}

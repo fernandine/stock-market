@@ -1,0 +1,79 @@
+
+<mat-card fxLayout="column">
+<mat-form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <input matInput placeholder="Ativo" formControlName="symbol">
+  </mat-form-field>
+  <button class="onButton" mat-raised-button color="primary" (click)="loadData()">Buscar</button>
+</mat-form>
+<br>
+<mat-divider></mat-divider>
+<br>
+<mat-table [dataSource]="dataSource">
+  <!-- Colunas da tabela -->
+  <ng-container matColumnDef="information">
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Informação</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element['1. Information'] }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="symbol">
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Ação</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element['2. Symbol'] }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastRefreshed">
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Última atualização</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element['3. Last Refreshed'] }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="outputSize">
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">4. Output Size</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element['4. Output Size'] }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="timeZone">
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">5. Time Zone</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element['5. Time Zone'] }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<br>
+<mat-divider></mat-divider>
+<br>
+
+<div fxLayout="row" style="background-color: #66c4ec41;">
+
+  <apx-chart fxFlex="50%"
+[series]="chartOptions.series"
+[chart]="chartOptions.chart"
+[xaxis]="chartOptions.xaxis"
+[yaxis]="chartOptions.yaxis"
+[title]="chartOptions.title"
+></apx-chart>
+
+<div fxFlex="">
+  <mat-table [dataSource]="dataTimeSeries.slice(0, maxElements)">
+
+    <ng-container matColumnDef="data">
+      <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Data</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.date }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="abertura">
+      <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Abertura</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.open }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fechamento">
+      <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Fechamento</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.close }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+  </mat-table>
+</div>
+</div>
+</mat-card>
