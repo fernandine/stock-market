@@ -12,8 +12,11 @@ import { StockService } from 'src/app/services/stock.service';
   styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent {
+
+  dataTimeSeries: any[] = [];
+
   form!: FormGroup;
-  chartOptions!: ChartOptions;
+  chartOptions: ChartOptions;
   metaData!: MetaData;
   dataSource = new MatTableDataSource<MetaData>([]);
   maxElements = 6;
@@ -26,11 +29,7 @@ export class ChartComponent {
     'timeZone',
   ];
 
-  readonly displayedColumns2 = [
-    'data',
-    'abertura',
-    'fechamento',
-  ];
+  readonly displayedColumns2 = ['data', 'abertura', 'fechamento'];
 
   constructor(private service: StockService, private formBuilder: FormBuilder) {
     this.chartOptions = {
@@ -52,6 +51,8 @@ export class ChartComponent {
         },
       },
     };
+
+
   }
 
   ngOnInit() {
@@ -59,12 +60,12 @@ export class ChartComponent {
       symbol: ['IBM'],
       function: ['TIME_SERIES_DAILY'],
     });
+    this.loadData();
   }
 
   formatChartData(response: TimeSeries) {
     const timeSeries = response;
     const data = [];
-
     for (let date in timeSeries) {
       if (timeSeries.hasOwnProperty(date)) {
         const record = timeSeries[date];
@@ -78,11 +79,8 @@ export class ChartComponent {
         data.push(chartData);
       }
     }
-
     return data;
   }
-
-  dataTimeSeries: any[] = [];
 
   loadData() {
     const symbol = this.form.get('symbol')?.value;
@@ -90,26 +88,27 @@ export class ChartComponent {
     this.service.getStockData(symbol, func).subscribe((response) => {
       const formattedData = [];
 
-      for (let date in response["Time Series (Daily)"]) {
-        if (response["Time Series (Daily)"].hasOwnProperty(date)) {
-          const record = response["Time Series (Daily)"][date];
+      for (let date in response['Time Series (Daily)']) {
+        if (response['Time Series (Daily)'].hasOwnProperty(date)) {
+          const record = response['Time Series (Daily)'][date];
           formattedData.push({
             date: date,
-            open: parseFloat(record["1. open"]),
-            close: parseFloat(record["4. close"]),
+            open: parseFloat(record['1. open']),
+            close: parseFloat(record['4. close']),
+            value: parseFloat(record['5. volume']),
           });
         }
       }
 
       this.dataTimeSeries = formattedData;
 
-      const formattedChartSeries = this.formatChartData(response["Time Series (Daily)"]);
+      const formattedChartSeries = this.formatChartData(
+        response['Time Series (Daily)']
+      );
       this.chartOptions.series = [{ data: formattedChartSeries }];
 
       this.metaData = response['Meta Data'];
       this.dataSource.data = [this.metaData];
     });
   }
-
-  }
-
+}

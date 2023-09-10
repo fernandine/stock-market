@@ -22,11 +22,9 @@ public class AlphaVantageService {
     @Transactional(readOnly = true)
     public AlphaVantageResponse getStockData(String function, String symbol) {
         String apiKey = config.getApiKey();
-        String apiUrl = "https://www.alphavantage.co/query?function=" + function + "&symbol=" + symbol + "&apikey=demo";
-//        // Informações de paginação
-//        apiUrl += "&page=" + pageable.getPageNumber();
-//        apiUrl += "&size=" + pageable.getPageSize();
-//        apiUrl += "&sort=" + pageable.getSort();
+        String apiUrl = "https://www.alphavantage.co/query?function=" + function + "&symbol=" + symbol + "&apikey="
+                + apiKey;
+
 
         ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(apiUrl, AlphaVantageResponse.class);
         return response.getBody();

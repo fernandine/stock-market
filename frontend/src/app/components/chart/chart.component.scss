@@ -10,24 +10,4 @@ mat-card {
 .onButton {
 margin-left: 40px;
 }
-.mat-header-row {
-  background: #005173;
-}
-.mat-header-cell {
-  color: rgb(255, 255, 255);
-}
-.mat-row:nth-child(even) .mat-cell{
-  background-color: floralwhite;
-  min-height: 8vh;
-  display: flex;
-  align-items: center;
-}
-.mat-row:nth-child(odd) .mat-cell{
-  background-color: gainsboro;
-  min-height: 8vh;
-  display: flex;
-  align-items: center;
-}
-.mat-row{
-  border-bottom-style: hidden;
-}
+

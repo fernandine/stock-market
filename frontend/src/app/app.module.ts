@@ -11,9 +11,10 @@ import { ChartComponent } from './components/chart/chart.component';
 import { MaterialModule } from './material/material.module';
 import { NavbarComponent } from './shared/layout/navbar/navbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LineChartComponent } from './components/line-chart/line-chart.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, ChartComponent],
+  declarations: [AppComponent, NavbarComponent, ChartComponent, LineChartComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

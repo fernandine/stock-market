@@ -7,7 +7,6 @@
   <button class="onButton" mat-raised-button color="primary" (click)="loadData()">Buscar</button>
 </mat-form>
 <br>
-<mat-divider></mat-divider>
 <br>
 <mat-table [dataSource]="dataSource">
   <!-- Colunas da tabela -->
@@ -23,16 +22,16 @@
 
   <ng-container matColumnDef="lastRefreshed">
     <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Última atualização</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element['3. Last Refreshed'] }}</mat-cell>
+    <mat-cell *matCellDef="let element">{{ element['3. Last Refreshed'] | date:'dd/MM/yyyy' }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="outputSize">
-    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">4. Output Size</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Tamanho</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element['4. Output Size'] }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="timeZone">
-    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">5. Time Zone</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Região</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element['5. Time Zone'] }}</mat-cell>
   </ng-container>
 
@@ -43,9 +42,9 @@
 <mat-divider></mat-divider>
 <br>
 
-<div fxLayout="row" style="background-color: #66c4ec41;">
+<div fxLayout="row" >
 
-  <apx-chart fxFlex="50%"
+  <apx-chart fxFlex="50%" style="background-color: #66c4ec41;"
 [series]="chartOptions.series"
 [chart]="chartOptions.chart"
 [xaxis]="chartOptions.xaxis"
@@ -58,17 +57,17 @@
 
     <ng-container matColumnDef="data">
       <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Data</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.date }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.date | date:'dd/MM/yyyy' }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="abertura">
       <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Abertura</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.open }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.open | currency:'BRL':'symbol':'1.2-2'}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="fechamento">
       <mat-header-cell *matHeaderCellDef style="background-color: #005173; color: white;">Fechamento</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.close }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.close | currency:'BRL':'symbol':'1.2-2'}}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
@@ -76,4 +75,10 @@
   </mat-table>
 </div>
 </div>
+<br>
+<mat-divider></mat-divider>
+<br>
+<app-line-chart [dataSeries]="dataTimeSeries"></app-line-chart>
 </mat-card>
+
+<br>
