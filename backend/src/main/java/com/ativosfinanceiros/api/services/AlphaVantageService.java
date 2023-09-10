@@ -3,30 +3,39 @@ package com.ativosfinanceiros.api.services;
 import com.ativosfinanceiros.api.config.AVConfig;
 import com.ativosfinanceiros.api.entities.AlphaVantageResponse;
 
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class AlphaVantageService {
-    private final AVConfig config;
-    private final RestTemplate restTemplate;
+    @Value("${alphavantage.api.key}")
+    private String apiKey;
+    @Autowired
+    private AVConfig config;
+    private final WebClient.Builder webClientBuilder;
 
-    public AlphaVantageService(AVConfig config) {
-        this.config = config;
-        this.restTemplate = new RestTemplate();
+    @Autowired
+    public AlphaVantageService(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
     }
 
     @Transactional(readOnly = true)
-    public AlphaVantageResponse getStockData(String function, String symbol) {
+    public Mono<AlphaVantageResponse> getStockData(String function, String symbol) {
         String apiKey = config.getApiKey();
         String apiUrl = "https://www.alphavantage.co/query?function=" + function + "&symbol=" + symbol + "&apikey=demo";
-               // + apiKey;
+        // + apiKey;
 
-
-        ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(apiUrl, AlphaVantageResponse.class);
-        return response.getBody();
+        return webClientBuilder.baseUrl(apiUrl)
+                .build()
+                .get()
+                .retrieve()
+                .bodyToMono(AlphaVantageResponse.class);
     }
 }
+

@@ -21,7 +21,7 @@ public class AlphaVantageController {
             @RequestParam String symbol
 
     ) {
-        AlphaVantageResponse response = service.getStockData(function,symbol);
+        AlphaVantageResponse response = service.getStockData(function,symbol).block();
         return ResponseEntity.ok(response);
     }
 }
